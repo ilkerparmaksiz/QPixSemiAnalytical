@@ -45,6 +45,16 @@ cmake ..
 make
 ```
 
+Running the code
+---------------
+Finally, the code is ready to be run as follows:
+
+```
+./OpticalSimulation -i <input_list_of_files> -n <number_of_events>
+```
+
+This will produce as many output files as input files were given in the input list. Note: The flag -n referst to the maximum number of events to be run whithin a single file.
+
 Parameters file
 ---------------
 Is is required to provide a "params.json" file containing all the relevant input parameters for the simulation. The required parameters are:
@@ -121,15 +131,6 @@ It is also required a .root input file containing the information on the energy 
 | hit_energy_deposit | std::vector<double\> | Magnitude of the energy deposition in the G4Step (in MeV) |
 | hit_length | std::vector<double\> | Length of the G4Step (in cm) |
 
-Running the code
----------------
-Finally, the code is ready to be run as follows:
-
-```
-./OpticalSimulation -i <input_list_of_files> -n <number_of_events>
-```
-
-This will produce as many output files as input files were given in the input list. Note: The flag -n referst to the maximum number of events to be run whithin a single file. 
 
 Examining the code
 ---------------

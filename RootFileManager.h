@@ -51,8 +51,8 @@ class ROOTFileManager {
         std::vector<double> * GetEdep(){return edep;}
         std::vector<double> * GetLength(){return length;}
         std::vector<int> * GetPDG(){return pdg;}
-        std::vector<int> GetInitialPDG(){return InitialPDG;} // Vector containing pdgs of all intial particles
-        std::vector<int> GetPrimaryPDG(){return PrimaryPDG;} // Vector containing pdgs of all primaries particles
+        std::vector<int> GetInitialPDG(){return *InitialPDG;} // Vector containing pdgs of all intial particles
+        std::vector<int> GetPrimaryPDG(){return *PrimaryPDG;} // Vector containing pdgs of all primaries particles
         std::vector<double> * GetInteractionTime(){return InteractionTime;} // Vector containing interaction times of all intial particles
         std::vector<double> * GetInitialEnergy(){return InitialEnergy;} // Vector containing energies of all intial particles
         std::vector<double> * GetPrimaryEnergy(){return PrimaryEnergy;} // Vector containing energies of all primary particles
@@ -107,8 +107,8 @@ class ROOTFileManager {
 
 
         // Vectors containing information of the initial/primary particles in the event 
-        std::vector<int> InitialPDG; 
-        std::vector<int> PrimaryPDG;
+        std::vector<int> *InitialPDG=new std::vector<int>();
+        std::vector<int> *PrimaryPDG=new std::vector<int>();
         std::vector<double> * InteractionTime = new std::vector<double>(); 
         std::vector<double> * InitialEnergy = new std::vector<double>();
         std::vector<double> * PrimaryEnergy = new std::vector<double>();

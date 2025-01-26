@@ -1,5 +1,5 @@
-export CC=/usr/local/bin/gcc-12
-export CXX=/usr/local/bin/g++-12
+export CC=/usr/bin/gcc-12
+export CXX=/usr/bin/g++-12
 
 
 

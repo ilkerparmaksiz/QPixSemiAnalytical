@@ -82,6 +82,31 @@ void ROOTFileManager::set_branch_addresses(TTree *input_tree)
     input_tree->SetBranchAddress("BackgroundVertexY", &BackgroundVertexY_);
     input_tree->SetBranchAddress("BackgroundVertexZ", &BackgroundVertexZ_);
 
+    }else if (TreeName_=="event_tree"){
+        std::cout <<" working with " << TreeName_ << std::endl;
+        input_tree->SetBranchAddress("run",&run);
+        input_tree->SetBranchAddress("generator_initial_particle_pdg_code", &PrimaryPDG);
+        input_tree->SetBranchAddress("generator_initial_particle_energy", &PrimaryEnergy);
+        input_tree->SetBranchAddress("generator_initial_particle_px", &PrimaryPx);
+        input_tree->SetBranchAddress("generator_initial_particle_py", &PrimaryPy);
+        input_tree->SetBranchAddress("generator_initial_particle_pz", &PrimaryPz);
+        input_tree->SetBranchAddress("particle_pdg_code", &InitialPDG);
+        input_tree->SetBranchAddress("particle_initial_t", &InteractionTime);
+        input_tree->SetBranchAddress("particle_initial_energy", &InitialEnergy);
+        input_tree->SetBranchAddress("particle_initial_x", &InteractionVertexX);
+        input_tree->SetBranchAddress("particle_initial_y", &InteractionVertexY);
+        input_tree->SetBranchAddress("particle_initial_z", &InteractionVertexZ);
+        input_tree->SetBranchAddress("hit_start_x",&hitX_start);
+        input_tree->SetBranchAddress("hit_end_x",&hitX_end);
+        input_tree->SetBranchAddress("hit_start_y",&hitY_start);
+        input_tree->SetBranchAddress("hit_end_y",&hitY_end);
+        input_tree->SetBranchAddress("hit_start_z",&hitZ_start);
+        input_tree->SetBranchAddress("hit_end_z",&hitZ_end);
+        input_tree->SetBranchAddress("hit_energy_deposit",&edep);
+        input_tree->SetBranchAddress("hit_start_t",&time_start);
+        input_tree->SetBranchAddress("hit_end_t",&time_end);
+        input_tree->SetBranchAddress("hit_length",&length);
+        input_tree->SetBranchAddress("hit_pdg_code",&pdg);
     }
 }
 
@@ -118,7 +143,7 @@ void ROOTFileManager::GetEvent()
       for(int i = 0; i < input_tree->GetEntries(); i++)
       {
         input_tree->GetEntry(i);
-        InitialPDG.push_back(InitialPDG_);
+        InitialPDG->push_back(InitialPDG_);
         InitialEnergy->push_back(InitialEnergy_);
         InteractionTime->push_back(InteractionTime_);
         InteractionVertexX->push_back(InteractionVertexX_);
@@ -132,7 +157,7 @@ void ROOTFileManager::GetEvent()
       for(int i = 0; i < input_tree->GetEntries(); i++)
       {
         input_tree->GetEntry(i);
-        PrimaryPDG.push_back(PrimaryPDG_);
+        PrimaryPDG->push_back(PrimaryPDG_);
         PrimaryEnergy->push_back(PrimaryEnergy_);
         PrimaryPx->push_back(PrimaryPx_);
         PrimaryPy->push_back(PrimaryPy_);
@@ -151,6 +176,28 @@ void ROOTFileManager::GetEvent()
         BackgroundVertexY->push_back(BackgroundVertexY_);
         BackgroundVertexZ->push_back(BackgroundVertexZ_);
       }
+    } else if (TreeName_=="event_tree"){
+        for(int i = 0; i < input_tree->GetEntries(); i++)
+        {
+            input_tree->GetEntry(i);
+            InitialPDG->push_back(InitialPDG_);
+            InitialEnergy->push_back(InitialEnergy_);
+            InteractionTime->push_back(InteractionTime_);
+            InteractionVertexX->push_back(InteractionVertexX_);
+            InteractionVertexY->push_back(InteractionVertexY_);
+            InteractionVertexZ->push_back(InteractionVertexZ_);
+            PrimaryPDG->push_back(PrimaryPDG_);
+            PrimaryEnergy->push_back(PrimaryEnergy_);
+            PrimaryPx->push_back(PrimaryPx_);
+            PrimaryPy->push_back(PrimaryPy_);
+            PrimaryPz->push_back(PrimaryPz_);
+            InitialPDG->push_back(InitialPDG_);
+            InitialEnergy->push_back(InitialEnergy_);
+            InteractionTime->push_back(InteractionTime_);
+            InteractionVertexX->push_back(InteractionVertexX_);
+            InteractionVertexY->push_back(InteractionVertexY_);
+            InteractionVertexZ->push_back(InteractionVertexZ_);
+        }
     }
 }//Get_Event
 
@@ -171,14 +218,14 @@ void ROOTFileManager::GetEvent()
     length->clear();
     pdg->clear();
 
-    InitialPDG.clear();
+    InitialPDG->clear();
     InteractionTime->clear();
     InitialEnergy->clear();
     InteractionVertexX->clear();
     InteractionVertexY->clear();
     InteractionVertexZ->clear();
 
-    PrimaryPDG.clear();
+    PrimaryPDG->clear();
     PrimaryEnergy->clear();
     PrimaryPx->clear();
     PrimaryPy->clear();
