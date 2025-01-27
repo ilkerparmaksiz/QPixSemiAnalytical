@@ -6,7 +6,7 @@ An introduction
 ---------------
 
 This code is a C++ implementation of the [semi-analytical model](https://arxiv.org/abs/2010.00324) for scintillation light simulation in a LArTPC. 
-The code takes as an input a root file produced by qpixg4 code containing the information related to the energy depositions for an event and simulates the propagation and detection of the scintillation photons.
+The code takes an ASCII file with list of root file names which produced by qpixg4 code (v3.0.2) containing the information related to the energy depositions for an event and simulates the propagation and detection of the scintillation photons.
 
 Requirements
 ---------------
@@ -51,6 +51,16 @@ Finally, the code is ready to be run as follows:
 
 ```
 ./OpticalSimulation -i <input_list_of_files> -n <number_of_events>
+```
+Example
+```
+./OpticalSimulation -i filenames.txt -n 1
+```
+filenames.txt contains the list of .root files as follows:
+```
+    file1.root
+    file2.root
+    file3.root
 ```
 
 This will produce as many output files as input files were given in the input list. Note: The flag -n referst to the maximum number of events to be run whithin a single file.
