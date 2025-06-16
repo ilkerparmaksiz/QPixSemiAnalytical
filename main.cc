@@ -33,7 +33,9 @@ using namespace std;
 int main(int argc, char **argv)
 {
   char* inputFileName=0;
+  bool SingleFile=false;
   int nMaxEvents=0;
+  vector<string> names;
   for (int i = 1; i < argc; i++)
   {  
    if (i + 1 != argc)
@@ -48,6 +50,13 @@ int main(int argc, char **argv)
      nMaxEvents = atoi(argv[i + 1]);   
      i++;   
     }
+   if (strcmp(argv[i], "--single") == 0 || strcmp(argv[i], "-s") == 0 )  //Input file name
+   {
+       SingleFile=true;
+       inputFileName = argv[i+1];
+       names.push_back(argv[i+1]);
+       i++;
+   }
    }
   }
   if(inputFileName==0) 
@@ -55,17 +64,21 @@ int main(int argc, char **argv)
    std::cout << "WARNING: No input file name given, aborting execution" << std::endl; 
    abort();
   }
-  //Start file loop
-  ifstream Traks_file2(inputFileName);
-  if(!Traks_file2) cerr << "WARNING:  Failed to open file with Input file names"<< endl;
-  Traks_file2.seekg(0);
-  vector<string> names;
-  string nombre;
-  while(!(Traks_file2.eof())) {
-    Traks_file2 >> nombre;
-    names.push_back(nombre);
+  if(!SingleFile){
+      //Start file loop
+      ifstream Traks_file2(inputFileName);
+      if(!Traks_file2) cerr << "WARNING:  Failed to open file with Input file names"<< endl;
+      Traks_file2.seekg(0);
+
+      string nombre;
+
+      while(Traks_file2 >> nombre) {
+          names.push_back(nombre);
+      }
   }
-  const int n_files = names.size() - 1;
+
+  //std::cout << names.size() << " " <<names.at(0) << " " <<names.at(1) <<std::endl;
+  const int n_files = names.size();
   cout<< "Number of input files: "<<n_files<<endl;
   std::ifstream f("params.json");
   json OpParams = json::parse(f);
@@ -364,12 +377,12 @@ int main(int argc, char **argv)
         std::vector<double> transport_time;
         transport_time.resize(n_detected);
         PropTime->propagationTime(transport_time, ScintPoint, channel);
+        double time=0,ScintTime=0;
         for (size_t i = 0; i < n_detected; ++i)
           {
-          int time=0;
-          double ScintTime = PropTime->ScintTime(pdg->at(nHit));
-          time =  static_cast<int>( ( (Edep->TimeStart() + Edep->TimeEnd())/2 ) + transport_time[i]+ ScintTime );
-          ++photonHitCollection[channel].DetectedPhotons[time];
+              ScintTime = PropTime->ScintTime(pdg->at(nHit));
+              time =  ( (Edep->TimeStart() + Edep->TimeEnd())/2 ) + transport_time[i]+ ScintTime ;
+              ++photonHitCollection[channel].DetectedPhotons[time];
           }
         }// end channels loop
       }// end hits loop
@@ -431,6 +444,8 @@ int main(int argc, char **argv)
       BackgroundTree->Fill();
       OutputFile->cd();
       rfm->EventReset();
+
+
       photonHitCollection.clear();
       SavePhotons->clear();
       distance->clear();

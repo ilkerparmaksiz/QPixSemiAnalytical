@@ -139,7 +139,7 @@ double SemiAnalyticalModel::VUVVisibility( Point_t const& ScintPoint, OpticalDet
   solid_angle = Rectangle_SolidAngleYZ(Dims{opDet.h, opDet.w}, abs_relative);
  }
  // calculate visibility by geometric acceptance
- // accounting for solid angle and LAr absorbtion length
+ // accounting for solid angle and LAr absorption length
 
   double visibility_geo =
     std::exp(-1. * distance / fvuv_absorption_length) * (solid_angle / (4 * 3.1416));
