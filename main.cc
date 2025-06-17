@@ -381,7 +381,9 @@ int main(int argc, char **argv)
         for (size_t i = 0; i < n_detected; ++i)
           {
               ScintTime = PropTime->ScintTime(pdg->at(nHit));
-              time =  ( (Edep->TimeStart() + Edep->TimeEnd())/2 ) + transport_time[i]+ ScintTime ;
+              time = ( (Edep->TimeStart() + Edep->TimeEnd())/2 ) + transport_time[i]+ ScintTime ;
+              time=round(time);
+              //std::cout << "Time " << time <<std::endl;
               ++photonHitCollection[channel].DetectedPhotons[time];
           }
         }// end channels loop
