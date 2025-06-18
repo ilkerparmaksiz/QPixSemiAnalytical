@@ -24,7 +24,7 @@ public:
   int OpChannel; ///< Optical detector channel associated to this data.
 
   /// Number of photons detected at each given time: time tick -> photons.
-  std::map<int, int> DetectedPhotons;
+  std::map<double, double> DetectedPhotons;
 
 }; 
 

@@ -383,7 +383,7 @@ int main(int argc, char **argv)
               ScintTime = PropTime->ScintTime(pdg->at(nHit));
               time = ( (Edep->TimeStart() + Edep->TimeEnd())/2 ) + transport_time[i]+ ScintTime ;
               time=round(time);
-              //std::cout << "Time " << time <<std::endl;
+              if(time<0) std::cout << "Time " << time <<std::endl;
               ++photonHitCollection[channel].DetectedPhotons[time];
           }
         }// end channels loop
@@ -391,11 +391,14 @@ int main(int argc, char **argv)
       for ( auto & fPhotons : (photonHitCollection) )
       {
         int opChannel = fPhotons.OpChannel;
-        std::map<int, int> fPhotons_map = fPhotons.DetectedPhotons;
+        std::map<double, double> fPhotons_map = fPhotons.DetectedPhotons;
         for (auto fPhotons = fPhotons_map.begin(); fPhotons!= fPhotons_map.end(); fPhotons++){
-          for(int i = 0; i < fPhotons->second ; i++)
+          for(int i = 0; i < round(fPhotons->second) ; i++)
           {
-          SavePhotons->at(opChannel).push_back(fPhotons->first);
+            if(fPhotons->first<0){
+                std::cout<<fPhotons->first <<std::endl;
+            }
+            SavePhotons->at(opChannel).push_back(round(fPhotons->first));
           }
         }
       }
